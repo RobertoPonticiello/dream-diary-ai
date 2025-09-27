@@ -47,6 +47,16 @@ export default {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
         },
+        emotion: {
+          ansia: "hsl(var(--emotion-ansia))",
+          paura: "hsl(var(--emotion-paura))",
+          rabbia: "hsl(var(--emotion-rabbia))",
+          tristezza: "hsl(var(--emotion-tristezza))",
+          gioia: "hsl(var(--emotion-gioia))",
+          calma: "hsl(var(--emotion-calma))",
+          sorpresa: "hsl(var(--emotion-sorpresa))",
+          disgusto: "hsl(var(--emotion-disgusto))",
+        },
         sidebar: {
           DEFAULT: "hsl(var(--sidebar-background))",
           foreground: "hsl(var(--sidebar-foreground))",

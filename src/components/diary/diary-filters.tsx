@@ -19,9 +19,11 @@ export function DiaryFilters({ filters, onFiltersChange }: DiaryFiltersProps) {
   const [isExpanded, setIsExpanded] = useState(false);
 
   const updateFilter = (key: keyof EntryFilters, value: any) => {
+    // Handle special "all" value for clearing filters
+    const finalValue = value === "all" ? undefined : value;
     onFiltersChange({
       ...filters,
-      [key]: value || undefined
+      [key]: finalValue || undefined
     });
   };
 
@@ -85,12 +87,12 @@ export function DiaryFilters({ filters, onFiltersChange }: DiaryFiltersProps) {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-4 border-t border-border">
           <div>
             <label className="text-sm font-medium mb-2 block">Emozione</label>
-            <Select value={filters.emotionLabel || ''} onValueChange={(value) => updateFilter('emotionLabel', value)}>
+            <Select value={filters.emotionLabel || 'all'} onValueChange={(value) => updateFilter('emotionLabel', value)}>
               <SelectTrigger>
                 <SelectValue placeholder="Seleziona emozione" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Tutte</SelectItem>
+                <SelectItem value="all">Tutte</SelectItem>
                 {emotionLabels.map(emotion => (
                   <SelectItem key={emotion} value={emotion}>
                     {emotion}

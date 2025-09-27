@@ -21,6 +21,22 @@ export interface DiaryEntry {
   wakeMood?: number | null; // 1-5
   source: string;
   isStarred: boolean;
+  aiInsight?: string | null; // AI-generated insight
+  insightGenerated?: boolean; // Whether insight has been generated
+}
+
+export interface EmotionInsight {
+  summary: string;
+  patterns: string[];
+  suggestions: string[];
+  mood_trend: 'positive' | 'negative' | 'neutral';
+}
+
+export interface DreamInsight {
+  symbolism: string[];
+  emotions: string[];
+  interpretation: string;
+  themes: string[];
 }
 
 export interface EntryFilters {

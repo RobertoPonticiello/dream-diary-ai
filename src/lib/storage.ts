@@ -60,7 +60,9 @@ class DiaryDB {
       dreamThemes,
       wakeMood: null,
       source: 'chat',
-      isStarred: false
+      isStarred: false,
+      aiInsight: null,
+      insightGenerated: false
     };
     
     return new Promise((resolve, reject) => {

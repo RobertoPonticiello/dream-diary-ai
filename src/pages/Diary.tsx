@@ -3,7 +3,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { DiaryFilters } from "@/components/diary/diary-filters";
 import { EntryCard } from "@/components/diary/entry-card";
-import { MessageCircle, Download, Plus } from "lucide-react";
+import { MessageCircle, Download, Plus, BarChart3 } from "lucide-react";
 import { DiaryEntry, EntryFilters } from "@/lib/types";
 import { diaryDB } from "@/lib/storage";
 
@@ -98,7 +98,7 @@ export default function Diary() {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background to-muted/30 p-4">
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-muted/20 p-4">
       {/* Header */}
       <header className="max-w-4xl mx-auto mb-8">
         <div className="flex items-center justify-between">
@@ -114,6 +114,15 @@ export default function Diary() {
           <div className="flex gap-2">
             <Button 
               variant="outline"
+              onClick={() => navigate('/analytics')}
+              disabled={entries.length === 0}
+              className="border-chart-primary/20 text-chart-primary hover:bg-chart-primary hover:text-white"
+            >
+              <BarChart3 className="w-4 h-4 mr-2" />
+              Analytics
+            </Button>
+            <Button 
+              variant="outline"
               onClick={handleExport}
               disabled={entries.length === 0}
             >
@@ -122,6 +131,7 @@ export default function Diary() {
             </Button>
             <Button 
               onClick={() => navigate('/')}
+              className="bg-gradient-primary hover:opacity-90"
             >
               <Plus className="w-4 h-4 mr-2" />
               Nuovo Entry
@@ -156,12 +166,17 @@ export default function Diary() {
           </div>
         ) : (
           <div className="space-y-6">
-            {entries.map((entry) => (
-              <EntryCard 
-                key={entry.id} 
-                entry={entry} 
-                onUpdate={loadEntries}
-              />
+            {entries.map((entry, index) => (
+              <div
+                key={entry.id}
+                style={{ animationDelay: `${index * 100}ms` }}
+                className="animate-slide-up"
+              >
+                <EntryCard 
+                  entry={entry} 
+                  onUpdate={loadEntries}
+                />
+              </div>
             ))}
           </div>
         )}

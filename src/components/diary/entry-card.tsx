@@ -6,6 +6,7 @@ import { Star, StarOff, MessageCircle, Brain } from "lucide-react";
 import { DiaryEntry } from "@/lib/types";
 import { EmotionBadge } from "@/components/ui/emotion-badge";
 import { DreamThemes } from "@/components/ui/dream-themes";
+import { AIInsight } from "./ai-insight";
 import { diaryDB } from "@/lib/storage";
 import { cn } from "@/lib/utils";
 
@@ -48,17 +49,17 @@ export function EntryCard({ entry, onUpdate }: EntryCardProps) {
 
   return (
     <Card className={cn(
-      "p-6 transition-all duration-300 hover:shadow-lg border-l-4",
+      "p-6 transition-all duration-300 hover:shadow-float border-l-4 animate-fade-in",
       entry.type === 'emotion' 
         ? "border-l-primary" 
         : "border-l-accent",
-      "bg-card/50 backdrop-blur-sm"
+      "bg-card/80 backdrop-blur-sm"
     )}>
       {/* Header */}
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-2 text-sm text-muted-foreground">
           {getTypeIcon()}
-          <span className="capitalize">{entry.type}</span>
+          <span className="capitalize font-medium">{entry.type === 'emotion' ? '💭 Emozione' : '🌙 Sogno'}</span>
           <span>•</span>
           <time>{formatDate(entry.createdAt)}</time>
         </div>
@@ -68,8 +69,8 @@ export function EntryCard({ entry, onUpdate }: EntryCardProps) {
           size="sm"
           onClick={toggleStar}
           className={cn(
-            "h-8 w-8 p-0 transition-colors",
-            isStarred && "text-yellow-500 hover:text-yellow-600"
+            "h-8 w-8 p-0 transition-all duration-200 hover:scale-105",
+            isStarred && "text-yellow-500 hover:text-yellow-600 bg-yellow-50"
           )}
         >
           {isStarred ? (
@@ -88,7 +89,7 @@ export function EntryCard({ entry, onUpdate }: EntryCardProps) {
       </div>
 
       {/* Tags and metadata */}
-      <div className="flex flex-wrap gap-2 items-center">
+      <div className="flex flex-wrap gap-2 items-center mb-4">
         {entry.emotionLabel && (
           <EmotionBadge 
             emotion={entry.emotionLabel} 
@@ -106,6 +107,9 @@ export function EntryCard({ entry, onUpdate }: EntryCardProps) {
           </Badge>
         )}
       </div>
+
+      {/* AI Insight */}
+      <AIInsight entry={entry} onUpdate={onUpdate} />
     </Card>
   );
 }

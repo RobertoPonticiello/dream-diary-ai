@@ -3,8 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { Brain, Loader2, Sparkles } from "lucide-react";
 import { DiaryEntry } from "@/lib/types";
-import { generateAIInsight } from "@/lib/ai-insights";
-import { diaryDB } from "@/lib/storage";
+import * as api from "@/lib/api";
 
 interface AIInsightProps {
   entry: DiaryEntry;
@@ -19,15 +18,12 @@ export function AIInsight({ entry, onUpdate }: AIInsightProps) {
   const handleGenerateInsight = async () => {
     setIsGenerating(true);
     try {
-      const newInsight = await generateAIInsight(entry);
+  const newInsight = await api.generateInsight(entry.id);
       setInsight(newInsight);
       setHasGenerated(true);
       
       // Salva nel database
-      await diaryDB.updateEntry(entry.id, {
-        aiInsight: newInsight,
-        insightGenerated: true
-      });
+      await api.updateEntry(entry.id, { aiInsight: newInsight, insightGenerated: true });
       
       onUpdate?.();
     } catch (error) {

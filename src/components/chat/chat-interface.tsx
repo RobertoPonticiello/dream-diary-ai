@@ -4,7 +4,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { Mic, MicOff, Send, MessageCircle, Brain } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { diaryDB } from "@/lib/storage";
+import * as api from "@/lib/api";
 import { EntryType } from "@/lib/types";
 import { useToast } from "@/hooks/use-toast";
 
@@ -80,7 +80,7 @@ export function ChatInterface({ onEntryAdded }: ChatInterfaceProps) {
 
     setIsLoading(true);
     try {
-      await diaryDB.addEntry(text.trim(), entryType);
+  await api.addEntry(text.trim(), entryType);
       
       toast({
         title: "✅ Salvato",

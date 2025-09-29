@@ -7,7 +7,7 @@ import { DiaryEntry } from "@/lib/types";
 import { EmotionBadge } from "@/components/ui/emotion-badge";
 import { DreamThemes } from "@/components/ui/dream-themes";
 import { AIInsight } from "./ai-insight";
-import { diaryDB } from "@/lib/storage";
+import * as api from "@/lib/api";
 import { cn } from "@/lib/utils";
 
 interface EntryCardProps {
@@ -18,10 +18,24 @@ interface EntryCardProps {
 export function EntryCard({ entry, onUpdate }: EntryCardProps) {
   const [isStarred, setIsStarred] = useState(entry.isStarred);
 
+  const emotionTint = (label?: DiaryEntry['emotionLabel']) => {
+    switch (label) {
+      case 'ansia': return 'bg-emotion-ansia/8 hover:bg-emotion-ansia/12';
+      case 'paura': return 'bg-emotion-paura/8 hover:bg-emotion-paura/12';
+      case 'rabbia': return 'bg-emotion-rabbia/8 hover:bg-emotion-rabbia/12';
+      case 'tristezza': return 'bg-emotion-tristezza/8 hover:bg-emotion-tristezza/12';
+      case 'gioia': return 'bg-emotion-gioia/8 hover:bg-emotion-gioia/12';
+      case 'calma': return 'bg-emotion-calma/8 hover:bg-emotion-calma/12';
+      case 'sorpresa': return 'bg-emotion-sorpresa/8 hover:bg-emotion-sorpresa/12';
+      case 'disgusto': return 'bg-emotion-disgusto/8 hover:bg-emotion-disgusto/12';
+      default: return '';
+    }
+  };
+
   const toggleStar = async () => {
     try {
-      const newStarred = !isStarred;
-      await diaryDB.updateEntry(entry.id, { isStarred: newStarred });
+  const newStarred = !isStarred;
+  await api.updateEntry(entry.id, { isStarred: newStarred });
       setIsStarred(newStarred);
       onUpdate?.();
     } catch (error) {
@@ -53,7 +67,8 @@ export function EntryCard({ entry, onUpdate }: EntryCardProps) {
       entry.type === 'emotion' 
         ? "border-l-primary" 
         : "border-l-accent",
-      "bg-card/80 backdrop-blur-sm"
+      "bg-card/80 backdrop-blur-sm",
+      emotionTint(entry.emotionLabel ?? undefined)
     )}>
       {/* Header */}
       <div className="flex items-start justify-between mb-3">

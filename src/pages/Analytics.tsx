@@ -15,7 +15,7 @@ import {
   Activity
 } from "lucide-react";
 import { DiaryEntry, EmotionLabel } from "@/lib/types";
-import { diaryDB } from "@/lib/storage";
+import * as api from "@/lib/api";
 import {
   ResponsiveContainer,
   LineChart,
@@ -44,7 +44,7 @@ export default function Analytics() {
   const loadEntries = async () => {
     try {
       setLoading(true);
-      const loadedEntries = await diaryDB.getEntries();
+  const loadedEntries = await api.getEntries();
       setEntries(loadedEntries);
     } catch (error) {
       console.error('Error loading entries:', error);
